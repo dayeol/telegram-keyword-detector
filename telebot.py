@@ -8,10 +8,14 @@ from sets import Set
 from pprint import pprint
 from telepot.loop import MessageLoop
 
+killed = False
 forwardChat = Set([])
-keywords = Set([])
+keywords = Set([r"uppsala", r"sentinel"])
 
 def on_chat_message(msg):
+    global killed
+    if killed:
+        return
     content_type, chat_type, chat_id = telepot.glance(msg)
     print('Chat:', content_type, chat_type, chat_id)
     chat_id, message_id = telepot.message_identifier(msg)   
@@ -32,6 +36,9 @@ def on_chat_message(msg):
                     bot.sendMessage(id, bot.getChat(chat_id)["username"]+" mentioned a keyword")
                 print(message_id)
                 bot.forwardMessage(chat_id=id, from_chat_id=chat_id, message_id=message_id)
+        
+        if chat_type <> "private":
+            return
 
         if "/subscribe" in msg["text"]:
             forwardChat.add( chat_id )
@@ -65,6 +72,9 @@ def on_chat_message(msg):
             for key in keywords:
                 s += key+", "
             bot.sendMessage(chat_id, s)
+
+        if "/kill" in msg["text"]:
+            killed = True
 
     except KeyError, e:
         print("Recieved KeyError: %s" % e)
