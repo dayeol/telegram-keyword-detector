@@ -1,6 +1,6 @@
 ## Introduction
 
-This Telegram Bot eavesdrop any chats and detects some keywords.
+This Telegram Bot eavesdrops any chats and detects some keywords.
 You can subscribe or unsubscribe from the detection alert, and also add/remove the keywords.
 
 ## Installation
@@ -17,7 +17,7 @@ You should set your API Token in the ".telegram\_bot\_secret" file.
 
 Execute this at your server
 ```
-python telepot.py 
+python telebot.py 
 ```
 
 ## Usage
